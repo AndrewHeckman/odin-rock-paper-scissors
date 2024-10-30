@@ -25,76 +25,93 @@ function getHumanChoice() {
 
 
 
-function playGame(rounds) {
+function playGame() {
   function playRound(humanChoice, computerChoice) {
     if (humanChoice == computerChoice) {
-      console.log("It's a tie!");
+      results.textContent = "It's a tie!";
       return;
     }
     else if (humanChoice == "rock") {
       if (computerChoice == "paper") {
-        console.log("You lose! Paper beats rock");
+        results.textContent = "You lose! Paper beats rock";
         computerScore++;
         return;
       }
       else if (computerChoice == "scissors") {
-        console.log("You win! Rock beats scissors");
+        results.textContent = "You win! Rock beats scissors";
         humanScore++;
         return;
       }
       else {
-        console.log(`How did we get here? computerChoice: ${computerChoice}`);
+        results.textContent = `How did we get here? computerChoice: ${computerChoice}`;
         return;
       }
     }
     else if (humanChoice == "paper") {
       if (computerChoice == "rock") {
-        console.log("You win! Paper beats rock");
+        results.textContent = "You win! Paper beats rock";
         humanScore++;
         return;
       }
       else if (computerChoice == "scissors") {
-        console.log("You lose! Scissors beats paper");
+        results.textContent = "You lose! Scissors beats paper";
         computerScore++;
         return;
       }
       else {
-        console.log(`How did we get here? computerChoice: ${computerChoice}`);
+        results.textContent = `How did we get here? computerChoice: ${computerChoice}`;
         return;
       }
     }
     else if (humanChoice == "scissors") {
       if (computerChoice == "rock") {
-        console.log("You lose! Rock beats scissors");
+        results.textContent = "You lose! Rock beats scissors";
         computerScore++;
         return;
       }
       else if (computerChoice == "paper") {
-        console.log("You win! Scissors beats paper");
+        results.textContent = "You win! Scissors beats paper";
         humanScore++;
         return;
       }
       else {
-        console.log(`How did we get here? computerChoice: ${computerChoice}`);
+        results.textContent = `How did we get here? computerChoice: ${computerChoice}`;
         return;
       }
     }
     else {
-      console.log(`How did we get here? humanChoice: ${humanChoice}`);
+      results.textContent = `How did we get here? humanChoice: ${humanChoice}`;
       return;
     }
   }
-
   let humanScore = 0;
   let computerScore = 0;
-  
-  for (let round = 0; round < rounds; round++) {
-    let humanChoice = getHumanChoice();
+
+  container.addEventListener("click", function (event) {
     let computerChoice = getComputerChoice();
-    if (humanChoice == "exit") return;
-    else playRound(humanChoice, computerChoice);
-    console.log(`Human: ${humanScore}\nComputer: ${computerScore}`);
-  }
+    let humanChoice = event.target.textContent.toLowerCase();
+
+    playRound(humanChoice, computerChoice);
+    if (humanScore > 4) {
+      score.textContent = "Human wins!";
+      humanScore = 0;
+      computerScore = 0;
+    }
+    else if (computerScore > 4) {
+      score.textContent = "Computer wins!";
+      humanScore = 0;
+      computerScore = 0;
+    }
+    else {
+      score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
+    }
+  })
+
 }
 
-playGame(5);
+const container = document.querySelector("#player-buttons");
+const buttons = document.querySelectorAll(".player-button");
+const results = document.querySelector("#results");
+const score = document.querySelector("#score");
+
+playGame();
